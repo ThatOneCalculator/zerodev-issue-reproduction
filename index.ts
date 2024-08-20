@@ -73,7 +73,7 @@ export async function chainCreateMarket() {
 
 	try {
 		const callData = await sessionKeyAccount.encodeCallData({
-			to: FAKE_HASH, // factorty address
+			to: FAKE_HASH, // factory address
 			value: BigInt(0),
 			data: encodeFunctionData({
 				abi: FactoryAbi,
@@ -82,7 +82,7 @@ export async function chainCreateMarket() {
 					usdcAddress,
 					"Fake question",
 					"Fake rules",
-					BigInt(999999999998),
+					BigInt(999999999999),
 					BigInt(3),
 				],
 			}),
