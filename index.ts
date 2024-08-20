@@ -11,20 +11,17 @@ import {
 } from "@zerodev/sdk";
 import { KERNEL_V3_1 } from "@zerodev/sdk/constants";
 import { http, createPublicClient } from "viem";
-import { generatePrivateKey } from "viem/accounts";
 
 const zerodevApiKey = Bun.env.ZERODEV_SECRET_KEY as string;
 
+const FAKE_HASH = "0x000";
+
 const remoteSigner = await toRemoteSigner({
 	apiKey: zerodevApiKey,
-	keyAddress: "0x0000000000000000000000000000000000000000", // fake key address
+	keyAddress: FAKE_HASH,
 	mode: RemoteSignerMode.Get,
 });
-
-const sessionKey = generatePrivateKey();
-
 const ecdsaSigner = toECDSASigner({ signer: remoteSigner });
-const sessionKeyAddress = ecdsaSigner.account.address as `0x${string}`;
 
 async function getSessionKeyAccount() {
 	const publicClient = createPublicClient({
@@ -35,7 +32,7 @@ async function getSessionKeyAccount() {
 		publicClient,
 		ENTRYPOINT_ADDRESS_V07,
 		KERNEL_V3_1,
-		"0x0000000000000000000000000000000000000000000000000000000000000000", // fake approval
+		FAKE_HASH, // approval
 		ecdsaSigner,
 	);
 	return sessionKeyAccount;
@@ -72,11 +69,11 @@ export async function chainCreateMarket() {
 	const sessionKeyAccount = await getSessionKeyAccount();
 	const kernelAccount = await getKernelAccount();
 
-	const usdcAddress = "0x5425890298aed601595a70ab815c96711a31bc65"; // Avalanche Fuji
+	const usdcAddress = "0x5425890298aed601595a70ab815c96711a31bc65"; // Avalanche Fuji USDC
 
 	try {
 		const callData = await sessionKeyAccount.encodeCallData({
-			to: "0x0000000000000000000000000000000000000000", // fake factorty address
+			to: FAKE_HASH, // factorty address
 			value: BigInt(0),
 			data: encodeFunctionData({
 				abi: FactoryAbi,
