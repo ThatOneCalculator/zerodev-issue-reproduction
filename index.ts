@@ -94,7 +94,7 @@ export async function chainCreateMarket() {
 			// Error occurs here!
 			userOperation: {
 				callData: callData,
-				callGasLimit: CREATE_GAS_LIMIT,
+				callGasLimit: BigInt(5030500),
 			},
 		});
 
